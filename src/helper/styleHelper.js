@@ -1,10 +1,10 @@
-export const getTableStyles = () => {
+export const getTableStyles = (theme) => {
     return {
         calenderContainer:{
             margin: '20px auto',
-            width : '80%',
+            //width : '80%',
             backgroundColor: '#121212',
-            padding :10
+            padding :10,
         },
     
         calenderTable:{
@@ -17,7 +17,7 @@ export const getTableStyles = () => {
             color: '#999999'
         },
         headCell:{
-            borderBottom: 'none'
+            borderBottom: 'none',
         },
         bodyCell:{
             borderBottom: 'none',
@@ -25,6 +25,8 @@ export const getTableStyles = () => {
             width: 176,
             height: 100,
             color: '#e6e6e6',
+            padding : 0,
+            paddingLeft: 10,
             '&.evenRow':{
                     '&:nth-child(even)':{
                         backgroundColor: 'rgba(255, 255, 255, 0.06)'

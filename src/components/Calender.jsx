@@ -1,39 +1,74 @@
 import React from 'react';
 import { Paper, Table, TableBody, TableRow, TableCell, TableHead, Typography } from '@material-ui/core'
-import { withStyles } from '@material-ui/styles';
+import { createTheme, withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import Controller from './Controller';
 import DateComponent from './DateComponent';
 import { getTableStyles } from '../helper/styleHelper';
 import { getDaysArr } from '../helper/dateHelper';
 
+const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 650,
+        md: 800,
+        lg: 1280,
+        xl: 1920,
+      },
+    },
+  })
+
 const styles = theme => ( getTableStyles(theme) );
+
 
 class Calender extends React.Component{
 
     constructor(props){
         super(props);
         this.state ={
-            daysArr : []
+            daysArr : [],
+            isTablet : window.outerWidth <=700 && window.outerWidth >450,
+            isMoblie : window.outerWidth <=450
         }
     }
     
     componentDidMount(){
         var dt = new Date();
-        var month = dt.getMonth() + 1;
+        var month = dt.getMonth();
         var year = dt.getFullYear();
+        let isTablet = (window.outerWidth <=700 && window.outerWidth >450);
+        let isMobile = (window.outerWidth <= 450);
         this.setState({
             ...this.state,
             selectedDay : dt, 
-            selectedMonth : month-1,
+            selectedMonth : month+1,
             selectedYear : year,
-            daysArr : getDaysArr(month-1, year)
+            daysArr : getDaysArr(month-1, year),
+            isMobile,
+            isTablet
         })
+        window.addEventListener("resize", this.resize.bind(this));
+    }
+
+    resize() {
+        let isTablet = (window.outerWidth <=700 && window.outerWidth >450);
+        let isMobile = (window.outerWidth <= 450);
+        if (isTablet !== this.state.isTablet) {
+            this.setState({
+                ...this.state,
+                isTablet});
+        }
+        if (isMobile !== this.state.isMobile) {
+            this.setState({
+                ...this.state,
+                isMobile});
+        }
     }
 
     updateMonth(direction){
-        let isFirstMonth = this.state.selectedMonth === 0;
-        let isLastMonth = this.state.selectedMonth === 11;
+        let isFirstMonth = this.state.selectedMonth === 1;
+        let isLastMonth = this.state.selectedMonth === 12;
         if(direction === 'left'){               
             let selectedMonth = isFirstMonth ? 12 : this.state.selectedMonth - 1;
             let selectedYear = isFirstMonth ? this.state.selectedYear - 1 : this.state.selectedYear;
@@ -63,7 +98,7 @@ class Calender extends React.Component{
 
     render(){
         let { classes } = this.props;
-        let { selectedMonth, selectedYear, daysArr } = this.state;
+        let { selectedMonth, selectedYear, daysArr, isMobile, isTablet } = this.state;
         let rows = [0,1,2,3,4,5];
         let columns = [1,2,3,4,5,6,7];
         let days = ['Monday' ,'Tuesday' , 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -77,7 +112,7 @@ class Calender extends React.Component{
                                     {
                                         days.map((day, index)=> (
                                             <TableCell align="center" className={classes.headCell} key={index}>
-                                                <Typography className={classes.days}>{day.toUpperCase()}</Typography> 
+                                                <Typography className={classes.days}>{isMobile ? day.toUpperCase().substr(0,1) : isTablet ? day.toUpperCase().substring(0,3) : day.toUpperCase() }</Typography> 
                                             </TableCell>
                                         ))
                                     }

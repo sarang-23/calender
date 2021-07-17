@@ -1,6 +1,6 @@
 
 
-const MONTHS = ["January", "February", "March", "April", "May", "June",
+const MONTHS = ["","January", "February", "March", "April", "May", "June",
 "July", "August", "September", "October", "November", "December"
 ];
 
@@ -15,17 +15,18 @@ export const getMonthName = (index) =>{
 }
 
 export const getDaysArr = (month, year) => {
+    let today = new Date();    
     let daysArr = new Array(43);
     let firstDay = new Date(year, month);
     let firstDayNum = firstDay.getDay();
     firstDayNum = firstDayNum === 0 ? 7 : firstDayNum;
-    console.log(firstDayNum)
     let daysInMonth = getDaysInMonth(month, year);
     let lastDayPrevMonth = new Date(year, month, 0);
     let lastDatePrevMonth = lastDayPrevMonth.getDate();
     for(let i= firstDayNum-1; i>0; i--){
         daysArr[i] = {
-            displayDate : lastDatePrevMonth--
+            displayDate : lastDatePrevMonth--,
+            isWeekend : isWeekend(i)
         }
     }
     let count = 1;
@@ -34,7 +35,9 @@ export const getDaysArr = (month, year) => {
             displayDate : count.toLocaleString('en-US',
            { minimumIntegerDigits: 2,
             useGrouping: false}),
-            isCurrMonth : true
+            isCurrMonth : true,
+            isCurrDate : month === today.getMonth() && count === today.getDate(),
+            isWeekend : isWeekend(j)
         }
         count ++;
     }
@@ -43,9 +46,14 @@ export const getDaysArr = (month, year) => {
         daysArr[k] = {
             displayDate : count.toLocaleString('en-US',
             { minimumIntegerDigits: 2,
-             useGrouping: false})
+             useGrouping: false}),
+             isWeekend : isWeekend(k)
         }
         count++;
     }
     return daysArr;
+}
+
+const isWeekend = (index) => {
+    return (index+1 )%7 ==0 || index%7 ==0;
 }
