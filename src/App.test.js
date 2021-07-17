@@ -1,8 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
+import { DAYS, MONTHS } from './helper/constants';
 
-test('renders learn react link', () => {
+test('On load, controller shows expected values', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const dt = new Date();
+  const month = dt.getMonth();
+  let monthText = MONTHS[month];
+  let year = dt.getFullYear();
+  const today = screen.getByText('Today');
+  const currentMonth = screen.getByText(monthText + " " + year);
+
+  expect(today).toBeInTheDocument();
+  expect(currentMonth).toBeInTheDocument();
 });
