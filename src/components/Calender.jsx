@@ -42,9 +42,9 @@ class Calender extends React.Component{
         this.setState({
             ...this.state,
             selectedDay : dt, 
-            selectedMonth : month+1,
+            selectedMonth : month,
             selectedYear : year,
-            daysArr : getDaysArr(month-1, year),
+            daysArr : getDaysArr(month, year),
             isMobile,
             isTablet
         })
@@ -67,10 +67,10 @@ class Calender extends React.Component{
     }
 
     updateMonth(direction){
-        let isFirstMonth = this.state.selectedMonth === 1;
-        let isLastMonth = this.state.selectedMonth === 12;
+        let isFirstMonth = this.state.selectedMonth === 0;
+        let isLastMonth = this.state.selectedMonth === 11;
         if(direction === 'left'){               
-            let selectedMonth = isFirstMonth ? 12 : this.state.selectedMonth - 1;
+            let selectedMonth = isFirstMonth ? 11 : this.state.selectedMonth - 1;
             let selectedYear = isFirstMonth ? this.state.selectedYear - 1 : this.state.selectedYear;
             let daysArr = getDaysArr(selectedMonth, selectedYear);
                 this.setState((state)=>{
@@ -82,7 +82,7 @@ class Calender extends React.Component{
                     }
                 });
         } else {
-            let selectedMonth = isLastMonth ? 1 : this.state.selectedMonth + 1;
+            let selectedMonth = isLastMonth ? 0 : this.state.selectedMonth + 1;
             let selectedYear = isLastMonth ? this.state.selectedYear + 1 : this.state.selectedYear;
             let daysArr = getDaysArr(selectedMonth, selectedYear)
             this.setState((state) => {
