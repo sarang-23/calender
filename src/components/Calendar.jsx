@@ -114,7 +114,7 @@ class Calendar extends React.Component{
                                         <TableRow className={classes.calenderRow} key={row}>
                                             {COLUMNS.map((col) => (
                                                 <TableCell key ={col+row} className={classNames(classes.bodyCell, row%2 == 0 ? 'evenRow' : 'oddRow')}>
-                                                    <DateComponent date={daysArr[row*7 + col]}/>
+                                                    <DateComponent date={daysArr[row*7 + col]} isMobile={isMobile} isTablet={isTablet}/>
                                                 </TableCell>
                                             ))}
                                         </TableRow>

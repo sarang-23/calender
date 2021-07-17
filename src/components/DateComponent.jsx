@@ -14,8 +14,10 @@ export default function DateComponent(props){
             {props.date.isCurrDate && <div className={classes.today}/>}
             <div className={classes.infoContainer}>
                 <Typography className={classNames(classes.date, !props.date.isCurrMonth ? classes.notCurrMonth : '', props.date.isCurrDate ? 'today' : '')}>{props.date["displayDate"]}</Typography>
-                {props.date.isWeekend &&
+                {props.date.isWeekend &&!props.isMobile && !props.isTablet &&
                 <div className={classes.weekend}>Weekly Off</div>}
+                {!props.date.appointments && !props.date.isWeekend && !props.isMobile && !props.isTablet &&
+                <div className={classes.weekend}>No appointments</div>}
             </div>
         </div> :
         <>
