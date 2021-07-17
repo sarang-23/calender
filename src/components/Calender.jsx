@@ -6,6 +6,7 @@ import Controller from './Controller';
 import DateComponent from './DateComponent';
 import { getTableStyles } from '../helper/styleHelper';
 import { getDaysArr } from '../helper/dateHelper';
+import { COLUMNS, DAYS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX, MONTHS, ROWS } from '../helper/constants';
 
 const theme = createTheme({
     breakpoints: {
@@ -67,10 +68,10 @@ class Calender extends React.Component{
     }
 
     updateMonth(direction){
-        let isFirstMonth = this.state.selectedMonth === 0;
-        let isLastMonth = this.state.selectedMonth === 11;
+        let isFirstMonth = this.state.selectedMonth === FIRST_MONTH_INDEX;
+        let isLastMonth = this.state.selectedMonth === LAST_MONTH_INDEX;
         if(direction === 'left'){               
-            let selectedMonth = isFirstMonth ? 11 : this.state.selectedMonth - 1;
+            let selectedMonth = isFirstMonth ? LAST_MONTH_INDEX : this.state.selectedMonth - 1;
             let selectedYear = isFirstMonth ? this.state.selectedYear - 1 : this.state.selectedYear;
             let daysArr = getDaysArr(selectedMonth, selectedYear);
                 this.setState((state)=>{
@@ -82,7 +83,7 @@ class Calender extends React.Component{
                     }
                 });
         } else {
-            let selectedMonth = isLastMonth ? 0 : this.state.selectedMonth + 1;
+            let selectedMonth = isLastMonth ? FIRST_MONTH_INDEX : this.state.selectedMonth + 1;
             let selectedYear = isLastMonth ? this.state.selectedYear + 1 : this.state.selectedYear;
             let daysArr = getDaysArr(selectedMonth, selectedYear)
             this.setState((state) => {
@@ -96,12 +97,13 @@ class Calender extends React.Component{
         }
     }
 
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.resize.bind(this));
+    }
+
     render(){
         let { classes } = this.props;
         let { selectedMonth, selectedYear, daysArr, isMobile, isTablet } = this.state;
-        let rows = [0,1,2,3,4,5];
-        let columns = [1,2,3,4,5,6,7];
-        let days = ['Monday' ,'Tuesday' , 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         return(
             <>
                 <Paper className={classes.calenderContainer}>
@@ -110,7 +112,7 @@ class Calender extends React.Component{
                         <TableHead className={classes.calenderHead}>
                                 <TableRow className={classes.calenderRow}>
                                     {
-                                        days.map((day, index)=> (
+                                        DAYS.map((day, index)=> (
                                             <TableCell align="center" className={classes.headCell} key={index}>
                                                 <Typography className={classes.days}>{isMobile ? day.toUpperCase().substr(0,1) : isTablet ? day.toUpperCase().substring(0,3) : day.toUpperCase() }</Typography> 
                                             </TableCell>
@@ -120,9 +122,9 @@ class Calender extends React.Component{
                             </TableHead>
                             <TableBody className={classes.calenderBody}>
                                 {
-                                    rows.map((row)=>(
+                                    ROWS.map((row)=>(
                                         <TableRow className={classes.calenderRow} key={row}>
-                                            {columns.map((col) => (
+                                            {COLUMNS.map((col) => (
                                                 <TableCell key ={col+row} className={classNames(classes.bodyCell, row%2 == 0 ? 'evenRow' : 'oddRow')}>
                                                     <DateComponent date={daysArr[row*7 + col]}/>
                                                 </TableCell>

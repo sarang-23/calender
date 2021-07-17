@@ -1,9 +1,4 @@
-
-
-const MONTHS = ["January", "February", "March", "April", "May", "June",
-"July", "August", "September", "October", "November", "December"
-];
-
+import { MONTHS } from "./constants";
 
  export const getDaysInMonth = (month, year) => {
     var daysInMonth = new Date(year, month+1, 0).getDate();
