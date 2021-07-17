@@ -1,29 +1,17 @@
 import React from 'react';
 import { Paper, Table, TableBody, TableRow, TableCell, TableHead, Typography } from '@material-ui/core'
-import { createTheme, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import Controller from './Controller';
 import DateComponent from './DateComponent';
 import { getTableStyles } from '../helper/styleHelper';
 import { getDaysArr } from '../helper/dateHelper';
-import { COLUMNS, DAYS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX, MONTHS, ROWS } from '../helper/constants';
-
-const theme = createTheme({
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 650,
-        md: 800,
-        lg: 1280,
-        xl: 1920,
-      },
-    },
-  })
+import { COLUMNS, DAYS, FIRST_MONTH_INDEX, LAST_MONTH_INDEX, ROWS } from '../helper/constants';
 
 const styles = theme => ( getTableStyles(theme) );
 
 
-class Calender extends React.Component{
+class Calendar extends React.Component{
 
     constructor(props){
         super(props);
@@ -141,4 +129,4 @@ class Calender extends React.Component{
     }
 }
 
-export default withStyles(styles)(Calender); 
+export default withStyles(styles)(Calendar); 
